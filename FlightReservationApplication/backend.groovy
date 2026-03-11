@@ -9,11 +9,8 @@ pipeline{
         }
          stage('Build'){
             steps{
-                sh '''
-                    cd FlightReservationApplication
-                    mvn clean package
-                '''
-            }
+                sh 'mvn clean package'
+             }
         }
          stage('QA-Test'){
             steps{
