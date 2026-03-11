@@ -31,7 +31,7 @@ pipeline{
                     cd FlightReservationApplication
                     docker build . -t priteshk13/flightreservation-new:latest
                     docker push priteshk13/flightreservation-new:latest
-                    docker rmi 'docker image list -aq
+                    docker rmi priteshk13/flightreservation-new:latest
                   '''
             }
         }
