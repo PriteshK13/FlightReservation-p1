@@ -25,5 +25,26 @@ pipeline{
                 }
             }
         }
-    } 
+        stage('Docker-build'){
+            steps{
+                sh'''
+                    cd FlightReservationApplication
+                    docker build . -t priteshk13/flightreservation-new:latest
+                    docker push priteshk13/flightreservation-new:latest
+                    docker rmi 'docker image list -aq
+                  '''
+            }
+        }
+           stage('Deploy'){
+            steps{
+                sh'''
+                    cd FlightReservationApplication   
+                    kubectl apply -f k8s/
+                '''
+            }
+        }
+
+    }
 }
+
+
