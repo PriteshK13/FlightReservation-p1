@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_REGISTRY = 'your-docker-registry'
+        DOCKER_REGISTRY = 'priteshk13'
         DOCKER_IMAGE_NAME = 'flight-checkin-app'
         DOCKER_IMAGE_TAG = "${BUILD_NUMBER}"
         MAVEN_HOME = tool 'Maven'
