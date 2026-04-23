@@ -36,19 +36,27 @@ pipeline {
     }
   }
 }
-        stage('Docker-build'){
-            steps{
+       stage('Docker-build') {
+            steps {
                 sh '''
-                    cd FlightReservationApplication
-                    docker build . -t priteshk13/flight-reservation-app:latest
-                    withCredentials([usernamePassword(
-                    credentialsId: 'docker-creds',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_TOKEN'
-                    )])
+                  cd FlightReservationApplication
+                  docker build -t priteshk13/flight-reservation-app:latest .
+                '''
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(
+                credentialsId: 'docker-creds',
+                usernameVariable: 'DOCKER_USER',
+                passwordVariable: 'DOCKER_TOKEN'
+                )]) {
+                sh '''
                     echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
                     docker push priteshk13/flight-reservation-app:latest
                 '''
+                }
             }
         }
          stage('DEPLOY') {
