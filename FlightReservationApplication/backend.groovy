@@ -16,7 +16,7 @@ pipeline {
         }
         stage('QA-Test') {
             steps{
-                withSonarQubeEnv(instalationName:'sonar' credentialsId: 'Sonar-token') {
+                withSonarQubeEnv(installationName:'sonar',credentialsId: 'Sonar-token') {
                     sh '''
                     cd FlightReservationApplication
                     mvn sonar:sonar -Dsonar.projectkey=flight-reservation
