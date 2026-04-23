@@ -6,14 +6,20 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/PriteshK13/FlightReservation-p1.git'
             }
         }
-        stage('code-build') {
-            steps{
-               sh '''
-                cd FlightReservationApplication
-                mvn clean package
+        stage('Build') {
+            steps {
+                sh '''
+                    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+                    export PATH=$JAVA_HOME/bin:$PATH
+
+                    java -version
+                     mvn -version
+
+                    cd FlightReservationApplication
+                    mvn clean package -DskipTests
                 '''
-            }
-        }
+  }
+}
         stage('QA-Test') {
             steps{
                 withSonarQubeEnv(installationName:'sonar',credentialsId: 'Sonar-token') {
