@@ -21,16 +21,21 @@ pipeline {
   }
 }
         stage('QA-Test') {
-            steps{
-                withSonarQubeEnv(installationName:'sonar',credentialsId: 'Sonar-token') {
-                    sh '''
+             steps {
+                withSonarQubeEnv('sonar') {
+                sh '''
+                    export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+                    export PATH=$JAVA_HOME/bin:$PATH
+
                     cd FlightReservationApplication
-                    mvn sonar:sonar -Dsonar.projectkey=flight-reservation
-                
-                    '''
-                }
-            }
-        }
+
+                    mvn clean verify sonar:sonar \
+                    -Dsonar.projectKey=flight-app \
+                    -DskipTests
+                '''
+    }
+  }
+}
         stage('Docker-build'){
             steps{
                 sh '''
