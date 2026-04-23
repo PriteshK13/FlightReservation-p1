@@ -8,7 +8,7 @@ pipeline {
         }
         stage('code-build') {
             steps{
-                '''
+               sh '''
                 cd FlightReservationApplication
                 mvn clean package
                 '''
