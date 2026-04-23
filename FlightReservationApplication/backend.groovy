@@ -25,5 +25,34 @@ pipeline {
                 }
             }
         }
+        stage('Docker-build'){
+            steps{
+                sh '''
+                    cd FlightReservationApplication
+                    docker build . -t priteshk13/flight-reservation-app:latest
+                    docker push priteshk13/flight-reservation-app:latest
+                    docker rmi priteshk13/flight-reservation-app:latest
+                '''
+            }
+        }
+         stage('DEPLOY') {
+            steps{
+                sh'''
+                    cd FlightReservationApplication
+                    kubectl apply -f k8s/
+                '''
+            }
+        }
+    }
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+        always {
+            cleanWs()
+        }
     }
 }
