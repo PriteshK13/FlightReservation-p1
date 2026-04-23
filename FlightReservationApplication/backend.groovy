@@ -41,8 +41,13 @@ pipeline {
                 sh '''
                     cd FlightReservationApplication
                     docker build . -t priteshk13/flight-reservation-app:latest
+                    withCredentials([usernamePassword(
+                    credentialsId: 'docker-creds',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_TOKEN'
+                    )])
+                    echo $DOCKER_TOKEN | docker login -u $DOCKER_USER --password-stdin
                     docker push priteshk13/flight-reservation-app:latest
-                    docker rmi priteshk13/flight-reservation-app:latest
                 '''
             }
         }
